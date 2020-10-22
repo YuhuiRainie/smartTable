@@ -33,12 +33,17 @@ function App () {
     data.forEach((item) => {
       if(!nonRepeatedCategory[item.category]){
         nonRepeatedCategory[item.category] = item.amount
+
       }
       else{
         nonRepeatedCategory[item.category] =+ item.amount
       }
+      
     });
-    console.log(nonRepeatedCategory)
+    for (const [key, value] of Object.entries(nonRepeatedCategory)) {
+      console.log(`${key}: ${value}`);
+    }
+    console.log(data.findIndex((item)=>item.category=="Non SACC Loans")
   }
   const renderDataForRow = (dataForRow, index) => {
     return (
