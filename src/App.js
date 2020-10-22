@@ -5,21 +5,39 @@ import * as ReactBootStrap from 'react-bootstrap'
 
 function App () {
 
-  const nonRepeatedCategory = []
-  const nonRepeatedData = data => {
-    data.forEach(basket => { //(2)
-      for (let [key, value] of Object.entries(basket)) { //(3)
-        if (result[key]) { //(4)
-          result[key] += value; //(5)
-        } else { //(6)
-          result[key] = value;
-        }
-      }});
-    // for (var j = 0; j < 5; j++) {
-    //   if (nonRepeatedCategory.indexOf(data[j].category) < 0) {
-    //     nonRepeatedCategory.push(data[j])
-    //   }
-    // }
+  const nonRepeatedCategory = {}
+  // const nonRepeatedData = () => {
+     
+  //   for (var j = 0; j < 5; j++) {
+  //     if (nonRepeatedCategory.indexOf(data[j].category) < 0) {
+  //       nonRepeatedCategory.push(data[j])
+  //     }
+  //   }
+  //   console.log(Object.keys(nonRepeatedCategory))
+  //   console.log(Object.values(nonRepeatedCategory))
+  // }
+  // const nonRepeatedData = (data,keyGetter)=> {
+  //   const map = new Map()
+  //   data.forEach(element => {
+  //     const key = keyGetter(element)
+  //     const collection = map.get(key)
+  //     if(!collection) {
+  //       map.set(key,[element])
+  //     } else {
+  //       collection.push(element)
+  //     }
+      
+  //   });
+  // }
+  const nonRepeatedData = () => {
+    data.forEach((item) => {
+      if(!nonRepeatedCategory[item.category]){
+        nonRepeatedCategory[item.category] = item.amount
+      }
+      else{
+        nonRepeatedCategory[item.category] =+ item.amount
+      }
+    });
     console.log(nonRepeatedCategory)
   }
   const renderDataForRow = (dataForRow, index) => {
@@ -46,7 +64,7 @@ function App () {
         </thead>
         <tbody>
           {nonRepeatedData()}
-          {nonRepeatedCategory.map(renderDataForRow)}
+          {renderDataForRow(nonRepeatedCategory)}
         </tbody>
       </ReactBootStrap.Table>
     </div>
