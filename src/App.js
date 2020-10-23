@@ -4,50 +4,45 @@ import data from './data.json'
 import * as ReactBootStrap from 'react-bootstrap'
 
 function App () {
-
   const nonRepeatedCategory = {}
+  const nonRepeatedArray = []
   // const nonRepeatedData = () => {
-     
-  //   for (var j = 0; j < 5; j++) {
-  //     if (nonRepeatedCategory.indexOf(data[j].category) < 0) {
-  //       nonRepeatedCategory.push(data[j])
-  //     }
-  //   }
-  //   console.log(Object.keys(nonRepeatedCategory))
-  //   console.log(Object.values(nonRepeatedCategory))
-  // }
-  // const nonRepeatedData = (data,keyGetter)=> {
-  //   const map = new Map()
-  //   data.forEach(element => {
-  //     const key = keyGetter(element)
-  //     const collection = map.get(key)
-  //     if(!collection) {
-  //       map.set(key,[element])
+  //   data.forEach((item) => {
+  //     if (!nonRepeatedCategory[item.category]) {
+  //       nonRepeatedArray.push(item)
+  //       nonRepeatedCategory[item.category] = item.amount
   //     } else {
-  //       collection.push(element)
+  //       nonRepeatedCategory[item.category] += item.amount
+  //       nonRepeatedArray[nonRepeatedArray.indexOf(item)].amount += item.amount
   //     }
-      
-  //   });
+  //   })
+  //   console.log(nonRepeatedArray)
+  //   console.log(nonRepeatedCategory)
   // }
-  const nonRepeatedData = () => {
-    data.forEach((item) => {
-      if(!nonRepeatedCategory[item.category]){
-        nonRepeatedCategory[item.category] = item.amount
-
+  const nonRepeated = () => {
+    for (let i = 0; i < data.length; i++) {
+      if (!nonRepeatedCategory[data[i].category]) {
+        nonRepeatedArray.push(data[i])
+        nonRepeatedCategory[data[i].category] = data[i].amount
+      } else {
+        nonRepeatedCategory[data[i].category] += data[i].amount
+        nonRepeatedArray.forEach((row) => {
+          if (row.category === data[i].category) {
+            console.log("before",row.category,row.amount)
+            row.amount += data[i].amount
+            row.amount = Number.parseFloat(row.amount).toFixed(2)
+            console.log("after",row.category,row.amount)
+            row.balance += data[i].balance
+          }
+        })
       }
-      else{
-        nonRepeatedCategory[item.category] =+ item.amount
-      }
-      
-    });
-    for (const [key, value] of Object.entries(nonRepeatedCategory)) {
-      console.log(`${key}: ${value}`);
     }
-    console.log(data.findIndex((item)=>item.category=="Non SACC Loans")
+    console.log("as",nonRepeatedArray)
+    console.log(nonRepeatedCategory)
   }
   const renderDataForRow = (dataForRow, index) => {
     return (
-      <tr key={index}>
+      <tr key={dataForRow.id}>
         <td>{dataForRow.category}</td>
         <td>{dataForRow.amount}</td>
         <td>{dataForRow.balance}</td>
@@ -61,15 +56,28 @@ function App () {
       <ReactBootStrap.Table striped bordered hover>
         <thead>
           <tr>
+            <th> </th>
             <th>Category</th>
             <th>Amout</th>
             <th>Balance</th>
             <th>Date</th>
+            <th>day_sequence</th>
           </tr>
         </thead>
         <tbody>
-          {nonRepeatedData()}
-          {renderDataForRow(nonRepeatedCategory)}
+          {nonRepeated()}
+          {nonRepeatedArray.map((row, key) => {
+            return (
+              <tr key={key}>
+                <td>{key + 1}</td>
+                <td>{row.category}</td>
+                <td>{row.amount}</td>
+                <td>{row.balance}</td>
+                <td>{row.transaction_date}</td>
+                <td>{row.day_sequence}</td>
+              </tr>
+            )
+          })}
         </tbody>
       </ReactBootStrap.Table>
     </div>
