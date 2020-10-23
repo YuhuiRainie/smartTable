@@ -4,7 +4,7 @@ import data from './data.json'
 import * as ReactBootStrap from 'react-bootstrap'
 
 function App () {
-  const nonRepeatedCategory = {}
+  const nonRepeatedCategory = []
   const nonRepeatedArray = []
   // const nonRepeatedData = () => {
   //   data.forEach((item) => {
@@ -20,25 +20,15 @@ function App () {
   //   console.log(nonRepeatedCategory)
   // }
   const nonRepeated = () => {
-    for (let i = 0; i < data.length; i++) {
-      if (!nonRepeatedCategory[data[i].category]) {
-        nonRepeatedArray.push(data[i])
-        nonRepeatedCategory[data[i].category] = data[i].amount
+    data.forEach(element => {
+      if (nonRepeatedCategory.indexOf(element.category) < 0) {
+        nonRepeatedCategory.push(element.category)
+        nonRepeatedArray.push(element)
       } else {
-        nonRepeatedCategory[data[i].category] += data[i].amount
-        nonRepeatedArray.forEach((row) => {
-          if (row.category === data[i].category) {
-            console.log("before",row.category,row.amount)
-            row.amount += data[i].amount
-            row.amount = Number.parseFloat(row.amount).toFixed(2)
-            console.log("after",row.category,row.amount)
-            row.balance += data[i].balance
-          }
-        })
+        nonRepeatedArray[nonRepeatedCategory.indexOf(element.category)].amount += element.amount
+        nonRepeatedArray[nonRepeatedCategory.indexOf(element.category)].balance += element.balance
       }
-    }
-    console.log("as",nonRepeatedArray)
-    console.log(nonRepeatedCategory)
+    })
   }
   const renderDataForRow = (dataForRow, index) => {
     return (
@@ -51,6 +41,7 @@ function App () {
       </tr>
     )
   }
+
   return (
     <div className='App'>
       <ReactBootStrap.Table striped bordered hover>
@@ -78,6 +69,8 @@ function App () {
               </tr>
             )
           })}
+          {console.log(nonRepeatedArray)}
+          {console.log(nonRepeatedCategory)}
         </tbody>
       </ReactBootStrap.Table>
     </div>
