@@ -20,16 +20,16 @@ function App () {
   //   console.log(nonRepeatedCategory)
   // }
   const nonRepeated = () => {
-    data.forEach(element => {
-      if (nonRepeatedCategory.indexOf(element.category) < 0) {
-        nonRepeatedCategory.push(element.category)
-        nonRepeatedArray.push(element)
-      } else {
-        nonRepeatedArray[nonRepeatedCategory.indexOf(element.category)].amount += element.amount
-        nonRepeatedArray[nonRepeatedCategory.indexOf(element.category)].balance += element.balance
-      }
-    })
+    // data.forEach(element => {
+    //   if (nonRepeatedCategory.indexOf(element.category) < 0) {
+    //     nonRepeatedCategory.push(element.category)
+    //     nonRepeatedArray.push(element)
+    //   } else {
+    //     console.log(Object.entries(element))
+    //   }
+    // })
   }
+  let set = new Set(data)
   const renderDataForRow = (dataForRow, index) => {
     return (
       <tr key={dataForRow.id}>
@@ -69,8 +69,9 @@ function App () {
               </tr>
             )
           })}
-          {console.log(nonRepeatedArray)}
-          {console.log(nonRepeatedCategory)}
+          {/* {console.log(nonRepeatedArray)}
+          {console.log(nonRepeatedCategory)} */}
+          {console.log(set)}
         </tbody>
       </ReactBootStrap.Table>
     </div>
